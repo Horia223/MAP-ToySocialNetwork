@@ -50,7 +50,7 @@ public class Friendship
     @Override
     public int hashCode(){
 
-        return Objects.hash(userId1,userId1)
+        return Objects.hash(userId1,userId1);
     }
 
 
