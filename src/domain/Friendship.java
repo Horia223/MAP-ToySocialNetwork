@@ -3,8 +3,8 @@ import java.util.Objects;
 
 public class Friendship
 {
-    private int userId1;
-    private int userId2;
+    private final int userId1;
+    private final int userId2;
 
     public int getUserId1() {
         return userId1;
@@ -50,7 +50,7 @@ public class Friendship
     @Override
     public int hashCode(){
 
-        return Objects.hash(userId1,userId1);
+        return Objects.hash(userId1,userId2);
     }
 
 
