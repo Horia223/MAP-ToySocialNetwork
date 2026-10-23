@@ -3,34 +3,41 @@ package repository;
 import domain.User;
 
 import java.util.HashMap;
+import java.util.Optional;
 
-public class UserRepository {
+public class UserRepository implements Repository<Integer, User>
+{
     private final HashMap<Integer, User> users = new HashMap<>();
-    private int nextId = 1;
 
-
-
-
-    public void remove(int id){
+    @Override
+    public void remove(Integer id){
         if(users.remove(id) == null){
             throw new RuntimeException("Error: Cannot remove a user that does not exist.");
         }
     }
 
-    public User findById(int id){
+    @Override
+    public User findById(Integer id) {
         User user = users.get(id);
+
         if(user == null){
-            throw new RuntimeException("Error: The user does not exists.");
+            throw new RuntimeException("The user does not exist.");
         }
+
         return user;
     }
 
-    public User add(String firstname, String lastname){
-        User user = new User(nextId, firstname, lastname);
+
+    @Override
+    public User add(User user){
+        if(users.containsKey(user.getId())) {
+            throw new IllegalArgumentException("User ID already exists.");
+        }
+
         users.put(user.getId(),user);
-        nextId++;
         return user;
 
     }
+
 
 }

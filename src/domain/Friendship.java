@@ -11,6 +11,7 @@ public class Friendship
     }
 
     public int getUserId2() {
+
         return userId2;
     }
 
