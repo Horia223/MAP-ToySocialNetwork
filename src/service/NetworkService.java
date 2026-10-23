@@ -9,6 +9,10 @@ import validation.Validator;
 import validation.UserValidator;
 import validation.FriendshipValidator;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+
 public class NetworkService {
 
     private final Repository<Integer, User> userRepository;
@@ -24,8 +28,16 @@ public class NetworkService {
         this.userRepository = userRepository;
     }
 
-    public User addUser(String firstname, String lastname){
 
+    public Collection<User> getAllUsers() {
+        return userRepository.getAll();
+    }
+
+    public Collection<Friendship> getAllFriendships() {
+        return friendshipRepository.getAll();
+    }
+
+    public User addUser(String firstname, String lastname){
 
 
         User user = userFactory.createUser(firstname,lastname);
@@ -58,7 +70,6 @@ public class NetworkService {
     }
 
     public void removeFriendship(int userid1, int userid2){
-        //need to implement the validation
 
 
         Friendship friendship = new Friendship(userid1, userid2);

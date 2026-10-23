@@ -3,12 +3,18 @@ package repository;
 import domain.User;
 import exception.EntityNotFoundException;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Optional;
 
 public class UserRepository implements Repository<Integer, User>
 {
     private final HashMap<Integer, User> users = new HashMap<>();
+
+
+    public Collection<User> getAll() {
+        return new HashMap<>(users).values();
+    }
 
     @Override
     public void remove(Integer id){

@@ -1,5 +1,6 @@
 package repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 public interface Repository<ID, E> {
@@ -8,4 +9,7 @@ public interface Repository<ID, E> {
     void remove(ID id);
 
     E findById(ID id);
+
+    Collection<E> getAll();
+
 }

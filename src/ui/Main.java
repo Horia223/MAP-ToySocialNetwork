@@ -29,7 +29,7 @@ public class Main {
             System.out.println("3. Add friendship.");
             System.out.println("4. Remove friendship.");
             System.out.println("5. List users.");
-
+            System.out.println("6. List friendships.");
             System.out.println("Choose your option: ");
 
             String option = scanner.nextLine();
@@ -82,8 +82,35 @@ public class Main {
                         networkService.removeFriendship(id1,id2);
                         System.out.println("Friendship removed.");
 
-
                     }
+                    case "5" -> {
+                        var users = networkService.getAllUsers();
+
+                        if (users.isEmpty()) {
+                            System.out.println("No users found.");
+                        } else
+                        {
+                            for (var user : users) {
+                                System.out.println("ID: " + user.getId() + ", Name: " + user.getFirstName() + " " + user.getLastName()
+                                );
+                            }
+                        }
+                    }
+                    case "6" -> {
+                        var friendships = networkService.getAllFriendships();
+
+                        if (friendships.isEmpty()) {
+                            System.out.println("No friendships found.");
+                        } else
+                        {
+                            for (var friendship : friendships) {
+                                System.out.println(friendship.getUserId1() + " <----> " + friendship.getUserId2()
+                                );
+                            }
+                        }
+                    }
+
+
                     case "0" ->  running = false;
 
 

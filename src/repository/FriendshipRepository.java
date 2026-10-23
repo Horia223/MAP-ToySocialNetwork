@@ -4,12 +4,17 @@ package repository;
 import domain.Friendship;
 import exception.EntityNotFoundException;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 
 public class FriendshipRepository {
     private final HashSet<Friendship> friendships = new HashSet<>();
 
+
+    public Collection<Friendship> getAll(){
+        return new HashSet<>(friendships);
+    }
 
     public void add(Friendship friendship){
         if(friendship == null) throw new IllegalArgumentException("Cannot add a friendship that is null.");
