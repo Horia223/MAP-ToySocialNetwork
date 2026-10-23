@@ -5,19 +5,18 @@ import domain.Friendship;
 import domain.User;
 
 import java.util.*;
-
+//lista ad
 public class NetworkGraph {
     private final Map<Integer, Set<Integer>> adjacencyList = new HashMap<>();
 
-    public NetworkGraph(Collection<User> users,
-                        Collection<Friendship> friendships) {
+    public NetworkGraph(Collection<User> users, Collection<Friendship> friendships) {
 
-        // Every user must be a vertex, including isolated users.
+        // users = nod
         for (User user : users) {
             adjacencyList.put(user.getId(), new HashSet<>());
         }
 
-        // Friendships are undirected edges.
+        // friendships are undirected
         for (Friendship friendship : friendships) {
             int id1 = friendship.getUserId1();
             int id2 = friendship.getUserId2();
@@ -90,9 +89,7 @@ public class NetworkGraph {
         return bestCommunity;
     }
 
-    private void collectCommunity(int userId,
-                                  Set<Integer> visited,
-                                  Set<Integer> community) {
+    private void collectCommunity(int userId,Set<Integer> visited,Set<Integer> community) {
         visited.add(userId);
         community.add(userId);
 

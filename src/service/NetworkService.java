@@ -6,12 +6,10 @@ import domain.UserFactory;
 import repository.Repository;
 import repository.FriendshipRepository;
 import validation.Validator;
-import validation.UserValidator;
+import validation.UserDataValidator;
 import validation.FriendshipValidator;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Set;
 
 public class NetworkService {
@@ -19,7 +17,7 @@ public class NetworkService {
     private final Repository<Integer, User> userRepository;
     private final FriendshipRepository friendshipRepository;
     private final UserFactory userFactory = new UserFactory();
-    private final Validator<User> userValidator = new UserValidator();
+    private final Validator<User> userValidator = new UserDataValidator();
     private final Validator<Friendship> friendshipValidator =  new FriendshipValidator();
 
 
@@ -84,18 +82,14 @@ public class NetworkService {
      * @return the number of connected components
      */
     public int countCommunities() {
-        NetworkGraph graph = new NetworkGraph(
-                userRepository.getAll(),
-                friendshipRepository.getAll()
+        NetworkGraph graph = new NetworkGraph(userRepository.getAll(), friendshipRepository.getAll()
         );
 
         return graph.countCommunities();
     }
 
     public Set<Integer> getMostSociableCommunity() {
-        NetworkGraph graph = new NetworkGraph(
-                userRepository.getAll(),
-                friendshipRepository.getAll()
+        NetworkGraph graph = new NetworkGraph(userRepository.getAll(), friendshipRepository.getAll()
         );
 
         return graph.mostSociableCommunity();

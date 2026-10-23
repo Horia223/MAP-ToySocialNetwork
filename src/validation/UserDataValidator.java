@@ -3,7 +3,7 @@ package validation;
 import domain.User;
 import exception.ValidationException;
 
-public class UserValidator implements  Validator<User> {
+public class UserDataValidator implements  Validator<User> {
 
     @Override
     public void validate(User user) {
