@@ -12,6 +12,7 @@ import validation.FriendshipValidator;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 public class NetworkService {
 
@@ -74,5 +75,25 @@ public class NetworkService {
 
         Friendship friendship = new Friendship(userid1, userid2);
         friendshipRepository.remove(friendship);
+    }
+
+    //Methods that imply graphs
+
+    public int countCommunities() {
+        NetworkGraph graph = new NetworkGraph(
+                userRepository.getAll(),
+                friendshipRepository.getAll()
+        );
+
+        return graph.countCommunities();
+    }
+
+    public Set<Integer> getMostSociableCommunity() {
+        NetworkGraph graph = new NetworkGraph(
+                userRepository.getAll(),
+                friendshipRepository.getAll()
+        );
+
+        return graph.mostSociableCommunity();
     }
 }

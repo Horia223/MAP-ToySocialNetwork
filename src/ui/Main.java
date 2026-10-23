@@ -5,18 +5,24 @@ import repository.UserRepository;
 import repository.FriendshipRepository;
 
 import java.util.Scanner;
+import java.util.Set;
 
 public class Main {
+    private NetworkService networkService;
 
-    static void main(String[] args){
 
-        UserRepository userRepository = new UserRepository();
-        FriendshipRepository friendshipRepository = new FriendshipRepository();
 
-        NetworkService networkService = new NetworkService(
-                userRepository,
-                friendshipRepository
-        );
+
+    public Main(UserRepository userRepository, FriendshipRepository friendshipRepository) {
+
+        NetworkService networkService = new NetworkService(userRepository, friendshipRepository);
+    }
+
+
+
+
+    public void main(){
+
 
         Scanner scanner = new Scanner(System.in);
 
@@ -30,6 +36,8 @@ public class Main {
             System.out.println("4. Remove friendship.");
             System.out.println("5. List users.");
             System.out.println("6. List friendships.");
+            System.out.println("7. Count communities");
+            System.out.println("8. Get most sociable community");
             System.out.println("Choose your option: ");
 
             String option = scanner.nextLine();
@@ -107,6 +115,21 @@ public class Main {
                                 System.out.println(friendship.getUserId1() + " <----> " + friendship.getUserId2()
                                 );
                             }
+                        }
+                    }
+
+                    case "8" -> {
+                        int count = networkService.countCommunities();
+                        System.out.println("Number of communities: " + count);
+                    }
+
+                    case "9" -> {
+                        Set<Integer> sociableCommunity= networkService.getMostSociableCommunity();
+                        if(sociableCommunity.isEmpty()){
+                            System.out.println("There are no communities.");
+                        }
+                        else {
+                            System.out.println("Most sociable community (Ids): " + sociableCommunity);
                         }
                     }
 
