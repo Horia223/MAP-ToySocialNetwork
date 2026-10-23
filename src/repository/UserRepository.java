@@ -6,7 +6,9 @@ import exception.EntityNotFoundException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Optional;
-
+/**
+ * Stores users in memory using a map indexed by user ID.
+ */
 public class UserRepository implements Repository<Integer, User>
 {
     private final HashMap<Integer, User> users = new HashMap<>();
@@ -34,7 +36,13 @@ public class UserRepository implements Repository<Integer, User>
         return user;
     }
 
-
+    /**
+     * Adds a user if its ID is not already present.
+     *
+     * @param user the user to add
+     * @return the added user
+     * @throws IllegalArgumentException if the ID already exists
+     */
     @Override
     public User add(User user){
         if(users.containsKey(user.getId())) {

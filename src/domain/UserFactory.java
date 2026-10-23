@@ -1,5 +1,7 @@
 package domain;
-
+/**
+ * Creates users and assigns them sequential IDs.
+ */
 public class UserFactory {
     private int nextId = 1;
 

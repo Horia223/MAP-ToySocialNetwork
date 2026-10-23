@@ -3,7 +3,7 @@ import repository.UserRepository;
 
 import ui.Main;
 
-public class run {
+public class Run {
     static void run(){
         UserRepository  userRepository =  new UserRepository();
         FriendshipRepository friendshipRepository = new FriendshipRepository();

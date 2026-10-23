@@ -51,6 +51,13 @@ public class NetworkGraph {
         }
     }
 
+    /**
+     * Finds the connected component with the largest diameter.
+     * The diameter is calculated using breadth-first search.
+     *
+     * @return the user IDs of the selected component,
+     *         or an empty set if the graph contains no vertices
+     */
     public Set<Integer> mostSociableCommunity() {
         Set<Integer> visited = new HashSet<>();
         Set<Integer> bestCommunity = new HashSet<>();

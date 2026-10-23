@@ -1,10 +1,22 @@
 package domain;
+/**
+ * Represents a user in the social network.
+ * Each user has a unique ID, a first name, and a last name.
+ */
 
 public class User {
     private int id;
     private String firstName;
     private String lastName;
 
+
+    /**
+     * Creates a user with the specified ID and name.
+     *
+     * @param id the user's unique identifier
+     * @param firstname the user's first name
+     * @param lastName the user's last name
+     */
 
     public User(int id, String firstname, String lastName){
         this.id =id;

@@ -78,7 +78,11 @@ public class NetworkService {
     }
 
     //Methods that imply graphs
-
+    /**
+     * Counts the connected components in the social network.
+     *
+     * @return the number of connected components
+     */
     public int countCommunities() {
         NetworkGraph graph = new NetworkGraph(
                 userRepository.getAll(),

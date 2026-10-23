@@ -1,5 +1,5 @@
 package ui;
-import domain.Friendship;
+
 import service.NetworkService;
 import repository.UserRepository;
 import repository.FriendshipRepository;
@@ -8,14 +8,14 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class Main {
-    private NetworkService networkService;
+    private final NetworkService networkService;
 
 
 
 
     public Main(UserRepository userRepository, FriendshipRepository friendshipRepository) {
 
-        NetworkService networkService = new NetworkService(userRepository, friendshipRepository);
+        this.networkService = new NetworkService(userRepository, friendshipRepository);
     }
 
 
@@ -118,12 +118,12 @@ public class Main {
                         }
                     }
 
-                    case "8" -> {
+                    case "7" -> {
                         int count = networkService.countCommunities();
                         System.out.println("Number of communities: " + count);
                     }
 
-                    case "9" -> {
+                    case "8" -> {
                         Set<Integer> sociableCommunity= networkService.getMostSociableCommunity();
                         if(sociableCommunity.isEmpty()){
                             System.out.println("There are no communities.");
