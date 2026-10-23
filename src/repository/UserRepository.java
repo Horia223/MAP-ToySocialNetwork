@@ -1,6 +1,7 @@
 package repository;
 
 import domain.User;
+import exception.EntityNotFoundException;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -12,7 +13,7 @@ public class UserRepository implements Repository<Integer, User>
     @Override
     public void remove(Integer id){
         if(users.remove(id) == null){
-            throw new RuntimeException("Error: Cannot remove a user that does not exist.");
+            throw new EntityNotFoundException("Cannot remove a user that does not exist.");
         }
     }
 
@@ -21,7 +22,7 @@ public class UserRepository implements Repository<Integer, User>
         User user = users.get(id);
 
         if(user == null){
-            throw new RuntimeException("The user does not exist.");
+            throw new EntityNotFoundException("The user does not exist.");
         }
 
         return user;

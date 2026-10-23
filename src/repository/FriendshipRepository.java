@@ -2,6 +2,7 @@ package repository;
 
 
 import domain.Friendship;
+import exception.EntityNotFoundException;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -16,8 +17,8 @@ public class FriendshipRepository {
     }
 
     public void remove(Friendship friendship){
-        if(friendship == null) throw new IllegalArgumentException("Cannot remove friendship that is null.");
-        if(!friendships.remove(friendship)) throw new IllegalArgumentException("Cannot remove a friendship that does not exist.");
+        if(friendship == null) throw new EntityNotFoundException("Cannot remove friendship that is null.");
+        if(!friendships.remove(friendship)) throw new EntityNotFoundException("Cannot remove a friendship that does not exist.");
     }
 
     public void removeAllWithId(int userid){
