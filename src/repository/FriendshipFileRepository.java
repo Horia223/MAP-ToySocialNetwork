@@ -28,8 +28,6 @@ public class FriendshipFileRepository
 
     @Override
     protected String createEntityAsString(Friendship friendship) {
-        return friendship.getUserId1() + ";"
-                + friendship.getUserId2() + ";"
-                + friendship.getDate();
+        return friendship.getUserId1() + ";" + friendship.getUserId2() + ";" + friendship.getDate();
     }
 }

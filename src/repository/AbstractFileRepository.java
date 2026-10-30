@@ -16,19 +16,22 @@ import java.time.format.DateTimeParseException;
 public abstract class AbstractFileRepository<ID, E extends Entity<ID>>
         extends InMemoryRepository<ID, E> {
 
+
     private final Path file;
+
+
 
     public AbstractFileRepository(Path file, Validator<E> validator) {
         super(validator);
         if (file == null) {
-            throw new IllegalArgumentException("File path cannot be null.");
+            throw new IllegalArgumentException("File path cannot be null");
         }
         this.file = file;
         loadData();
     }
-
+    //Receives a line and creates the entity
     protected abstract E extractEntity(String line);
-
+    //Receives an entity and creates the text that will be written in the file
     protected abstract String createEntityAsString(E entity);
 
     private void loadData() {
@@ -44,8 +47,8 @@ public abstract class AbstractFileRepository<ID, E extends Entity<ID>>
                 try {
                     super.save(extractEntity(line));
                 } catch (IllegalArgumentException | DateTimeParseException | ValidationException e) {
-                    System.err.println("Ignoring invalid line " + lineNumber + " in " + file
-                            + ": " + e.getMessage());
+                    System.err.println("Ignoring line " + lineNumber + " in " + file + " because : " + e.getMessage());
+                    //it continues
                 }
             }
         } catch (IOException e) {
@@ -84,6 +87,9 @@ public abstract class AbstractFileRepository<ID, E extends Entity<ID>>
         writeData();
         return deleted;
     }
+
+
+
 
     @Override
     public E update(E entity) {

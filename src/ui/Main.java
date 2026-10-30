@@ -47,29 +47,27 @@ public class Main {
 
             try{
 
-                switch(option){
-
-                    case "1" -> {
+                switch (option) {
+                    case "1": {
                         System.out.print("Firstname: ");
                         String firstname = scanner.nextLine();
 
                         System.out.print("LastName: ");
                         String lastname = scanner.nextLine();
 
-                        var user = networkService.addUser(firstname,lastname);
+                        User user = networkService.addUser(firstname, lastname);
                         System.out.println("User added with Id: " + user.getId());
+                        break;
                     }
-
-                    case "2" -> {
+                    case "2": {
                         System.out.print("User Id: ");
                         Long id = Long.parseLong(scanner.nextLine());
 
                         networkService.removeUser(id);
                         System.out.println("User has been removed.");
-
+                        break;
                     }
-
-                    case "3" -> {
+                    case "3": {
                         System.out.print("Id for the first user: ");
                         Long id1 = Long.parseLong(scanner.nextLine());
 
@@ -77,71 +75,71 @@ public class Main {
                         Long id2 = Long.parseLong(scanner.nextLine());
 
                         networkService.addFriendship(id1, id2);
-
                         System.out.println("Friendship added.");
-
-
+                        break;
                     }
-
-                    case  "4" -> {
+                    case "4": {
                         System.out.print("First user: ");
                         Long id1 = Long.parseLong(scanner.nextLine());
 
                         System.out.print("Second user: ");
                         Long id2 = Long.parseLong(scanner.nextLine());
 
-                        networkService.removeFriendship(id1,id2);
+                        networkService.removeFriendship(id1, id2);
                         System.out.println("Friendship removed.");
-
+                        break;
                     }
-                    case "5" -> {
+                    case "5": {
                         var users = networkService.getAllUsers();
 
                         if (users.isEmpty()) {
                             System.out.println("No users found.");
-                        } else
-                        {
-                            for (var user : users) {
-                                System.out.println("ID: " + user.getId() + ", Name: " + user.getFirstName() + " " + user.getLastName()
-                                );
+                        } else {
+                            for (User user : users) {
+                                System.out.println("ID: " + user.getId()
+                                        + ", Name: " + user.getFirstName()
+                                        + " " + user.getLastName());
                             }
                         }
+                        break;
                     }
-                    case "6" -> {
+                    case "6": {
                         var friendships = networkService.getAllFriendships();
 
                         if (friendships.isEmpty()) {
                             System.out.println("No friendships found.");
-                        } else
-                        {
-                            for (var friendship : friendships) {
-                                System.out.println(friendship.getUserId1() + " <----> " + friendship.getUserId2()
-                                        + " at " + friendship.getDate()
-                                );
+                        } else {
+                            for (Friendship friendship : friendships) {
+                                System.out.println(friendship.getUserId1()
+                                        + " <----> " + friendship.getUserId2()
+                                        + " at " + friendship.getDate());
                             }
                         }
+                        break;
                     }
-
-                    case "7" -> {
+                    case "7": {
                         int count = networkService.countCommunities();
                         System.out.println("Number of communities: " + count);
+                        break;
                     }
+                    case "8": {
+                        Set<Long> community = networkService.getMostSociableCommunity();
 
-                    case "8" -> {
-                        Set<Long> sociableCommunity= networkService.getMostSociableCommunity();
-                        if(sociableCommunity.isEmpty()){
+                        if (community.isEmpty()) {
                             System.out.println("There are no communities.");
+                        } else {
+                            System.out.println("Most sociable community (Ids): " + community);
                         }
-                        else {
-                            System.out.println("Most sociable community (Ids): " + sociableCommunity);
-                        }
+                        break;
                     }
-
-
-                    case "0" ->  running = false;
-
-
-                    default -> System.out.println("Invalid option.");
+                    case "0": {
+                        running = false;
+                        break;
+                    }
+                    default: {
+                        System.out.println("Invalid option.");
+                        break;
+                    }
                 }
             }
             catch(RuntimeException e){

@@ -11,7 +11,7 @@ public class UserFileRepository extends AbstractFileRepository<Long, User> {
     }
 
     @Override
-    protected User extractEntity(String line) {
+    protected User extractEntity(String line) {  //ex: 1;Horia;Istrate
         String[] fields = line.split(";", -1);
         if (fields.length != 3) {
             throw new IllegalArgumentException("Expected 3 fields for a user.");
