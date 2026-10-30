@@ -7,18 +7,32 @@ public class UserDataValidator implements  Validator<User> {
 
     @Override
     public void validate(User user) {
-        if(user == null){
-
+        if (user == null) {
             throw new ValidationException("User cannot be null.");
-
         }
 
-        if(user.getFirstName() == null || user.getFirstName().isBlank()) {
-            throw new ValidationException("First name cannot be null or empty.");
+        StringBuilder errors = new StringBuilder();
+
+        if (user.getId() == null || user.getId() <= 0) {
+            errors.append("ID must be positive. ");
         }
 
-        if(user.getLastName() == null || user.getLastName().isBlank()){
-            throw new ValidationException("Last name cannot be null or empty.");
+        String firstName = user.getFirstName();
+        if (firstName == null || firstName.isBlank()) {
+            errors.append("First name cannot be empty. ");
+        } else if (!Character.isUpperCase(firstName.charAt(0))) {
+            errors.append("First name must start with a capital letter. ");
+        }
+
+        String lastName = user.getLastName();
+        if (lastName == null || lastName.isBlank()) {
+            errors.append("Last name cannot be empty. ");
+        } else if (!Character.isUpperCase(lastName.charAt(0))) {
+            errors.append("Last name must start with a capital letter. ");
+        }
+
+        if (errors.length() > 0) {
+            throw new ValidationException(errors.toString());
         }
     }
 }

@@ -1,8 +1,10 @@
 package ui;
 
 import service.NetworkService;
-import repository.UserRepository;
-import repository.FriendshipRepository;
+import domain.Friendship;
+import domain.Tuple;
+import domain.User;
+import repository.Repository;
 
 import java.util.Scanner;
 import java.util.Set;
@@ -13,7 +15,8 @@ public class Main {
 
 
 
-    public Main(UserRepository userRepository, FriendshipRepository friendshipRepository) {
+    public Main(Repository<Long, User> userRepository,
+                Repository<Tuple<Long, Long>, Friendship> friendshipRepository) {
 
         this.networkService = new NetworkService(userRepository, friendshipRepository);
     }

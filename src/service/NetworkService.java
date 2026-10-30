@@ -1,13 +1,10 @@
 package service;
 
 import domain.Friendship;
+import domain.Tuple;
 import domain.User;
 import domain.UserFactory;
 import repository.Repository;
-import repository.FriendshipRepository;
-import validation.Validator;
-import validation.UserDataValidator;
-import validation.FriendshipValidator;
 
 import java.util.Collection;
 import java.util.Set;
@@ -15,14 +12,13 @@ import java.util.Set;
 public class NetworkService {
 
     private final Repository<Long, User> userRepository;
-    private final FriendshipRepository friendshipRepository;
+    private final Repository<Tuple<Long, Long>, Friendship> friendshipRepository;
     private final UserFactory userFactory = new UserFactory();
-    private final Validator<User> userValidator = new UserDataValidator();
-    private final Validator<Friendship> friendshipValidator =  new FriendshipValidator();
 
 
 
-    public NetworkService(Repository<Long, User> userRepository, FriendshipRepository friendshipRepository){
+    public NetworkService(Repository<Long, User> userRepository,
+                          Repository<Tuple<Long, Long>, Friendship> friendshipRepository) {
         this.friendshipRepository = friendshipRepository;
         this.userRepository = userRepository;
     }
@@ -40,20 +36,18 @@ public class NetworkService {
 
 
         User user = userFactory.createUser(firstname,lastname);
-        userValidator.validate(user);
-        return userRepository.add(user);
+        return userRepository.save(user);
 
     }
 
     public void addFriendship(Long userId, Long userId2){
 
 
-        userRepository.findById(userId);
-        userRepository.findById(userId2);
+        userRepository.findOne(userId);
+        userRepository.findOne(userId2);
 
         Friendship friendship = new Friendship(userId, userId2);
-        friendshipValidator.validate(friendship);
-        friendshipRepository.add(friendship);
+        friendshipRepository.save(friendship);
 
 
     }
@@ -61,10 +55,13 @@ public class NetworkService {
     public void removeUser(Long id){
 
 
-        userRepository.findById(id);   //validation
-
-        friendshipRepository.removeAllWithId(id);
-        userRepository.remove(id);
+        userRepository.findOne(id);
+        for (Friendship friendship : friendshipRepository.getAll()) {
+            if (friendship.getUserId1().equals(id) || friendship.getUserId2().equals(id)) {
+                friendshipRepository.delete(friendship.getId());
+            }
+        }
+        userRepository.delete(id);
 
     }
 
@@ -72,7 +69,7 @@ public class NetworkService {
 
 
         Friendship friendship = new Friendship(userid1, userid2);
-        friendshipRepository.remove(friendship);
+        friendshipRepository.delete(friendship.getId());
     }
 
     //Methods that imply graphs

@@ -11,10 +11,23 @@ public class FriendshipValidator implements Validator<Friendship>{
             throw new ValidationException("Friendship cannot be null");
         }
 
-        if(friendship.getUserId1().equals(friendship.getUserId2())) {
-            throw new ValidationException(
-                    "A user cannout be friends with themselves."
-            );
+        StringBuilder errors = new StringBuilder();
+
+        if (friendship.getUserId1() <= 0) {
+            errors.append("First user ID must be positive. ");
+        }
+        if (friendship.getUserId2() <= 0) {
+            errors.append("Second user ID must be positive. ");
+        }
+        if (friendship.getUserId1().equals(friendship.getUserId2())) {
+            errors.append("A user cannot be friends with themselves. ");
+        }
+        if (friendship.getDate() == null) {
+            errors.append("Friendship date cannot be null. ");
+        }
+
+        if (errors.length() > 0) {
+            throw new ValidationException(errors.toString());
         }
     }
 

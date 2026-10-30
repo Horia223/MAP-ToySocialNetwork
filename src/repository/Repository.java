@@ -1,15 +1,16 @@
 package repository;
 
+import domain.Entity;
 import java.util.Collection;
-import java.util.Optional;
 
-public interface Repository<ID, E> {
-    E add(E entity);
+public interface Repository<ID, E extends Entity<ID>> {
+    E save(E entity);
 
-    void remove(ID id);
+    E delete(ID id);
 
-    E findById(ID id);
+    E findOne(ID id);
+
+    E update(E entity);
 
     Collection<E> getAll();
-
 }
