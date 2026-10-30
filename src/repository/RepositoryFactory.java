@@ -46,7 +46,10 @@ public class RepositoryFactory {
             case FILE:
                 return new UserFileRepository(
                         Paths.get(required("user.file")), validator);
-            case DATABASE:
+
+
+
+                case DATABASE:
                 return new UserDbRepository(
                         validator,
                         required("db.url"),
@@ -62,10 +65,13 @@ public class RepositoryFactory {
         switch (repositoryType) {
             case MEMORY:
                 return new FriendshipRepository(validator);
-            case FILE:
+
+                case FILE:
                 return new FriendshipFileRepository(
                         Paths.get(required("friendship.file")), validator);
-            case DATABASE:
+
+
+                case DATABASE:
                 return new FriendshipDbRepository(
                         validator,
                         required("db.url"),
