@@ -11,7 +11,7 @@ public class FriendshipValidator implements Validator<Friendship>{
             throw new ValidationException("Friendship cannot be null");
         }
 
-        if(friendship.getUserId1() == friendship.getUserId2()) {
+        if(friendship.getUserId1().equals(friendship.getUserId2())) {
             throw new ValidationException(
                     "A user cannout be friends with themselves."
             );

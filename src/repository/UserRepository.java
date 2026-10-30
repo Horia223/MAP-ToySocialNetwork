@@ -9,9 +9,9 @@ import java.util.Optional;
 /**
  * Stores users in memory using a map indexed by user ID.
  */
-public class UserRepository implements Repository<Integer, User>
+public class UserRepository implements Repository<Long, User>
 {
-    private final HashMap<Integer, User> users = new HashMap<>();
+    private final HashMap<Long, User> users = new HashMap<>();
 
 
     public Collection<User> getAll() {
@@ -19,14 +19,14 @@ public class UserRepository implements Repository<Integer, User>
     }
 
     @Override
-    public void remove(Integer id){
+    public void remove(Long id){
         if(users.remove(id) == null){
             throw new EntityNotFoundException("Cannot remove a user that does not exist.");
         }
     }
 
     @Override
-    public User findById(Integer id) {
+    public User findById(Long id) {
         User user = users.get(id);
 
         if(user == null){

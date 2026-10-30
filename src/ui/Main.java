@@ -59,7 +59,7 @@ public class Main {
 
                     case "2" -> {
                         System.out.print("User Id: ");
-                        int id = Integer.parseInt(scanner.nextLine());
+                        Long id = Long.parseLong(scanner.nextLine());
 
                         networkService.removeUser(id);
                         System.out.println("User has been removed.");
@@ -68,10 +68,10 @@ public class Main {
 
                     case "3" -> {
                         System.out.print("Id for the first user: ");
-                        int id1 = Integer.parseInt(scanner.nextLine());
+                        Long id1 = Long.parseLong(scanner.nextLine());
 
                         System.out.print("Id for the second user: ");
-                        int id2 = Integer.parseInt(scanner.nextLine());
+                        Long id2 = Long.parseLong(scanner.nextLine());
 
                         networkService.addFriendship(id1, id2);
 
@@ -82,10 +82,10 @@ public class Main {
 
                     case  "4" -> {
                         System.out.print("First user: ");
-                        int id1 = Integer.parseInt(scanner.nextLine());
+                        Long id1 = Long.parseLong(scanner.nextLine());
 
                         System.out.print("Second user: ");
-                        int id2 = Integer.parseInt(scanner.nextLine());
+                        Long id2 = Long.parseLong(scanner.nextLine());
 
                         networkService.removeFriendship(id1,id2);
                         System.out.println("Friendship removed.");
@@ -113,6 +113,7 @@ public class Main {
                         {
                             for (var friendship : friendships) {
                                 System.out.println(friendship.getUserId1() + " <----> " + friendship.getUserId2()
+                                        + " at " + friendship.getDate()
                                 );
                             }
                         }
@@ -124,7 +125,7 @@ public class Main {
                     }
 
                     case "8" -> {
-                        Set<Integer> sociableCommunity= networkService.getMostSociableCommunity();
+                        Set<Long> sociableCommunity= networkService.getMostSociableCommunity();
                         if(sociableCommunity.isEmpty()){
                             System.out.println("There are no communities.");
                         }

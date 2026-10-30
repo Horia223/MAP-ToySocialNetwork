@@ -42,12 +42,12 @@ public class FriendshipRepository {
      *
      * @param userid the ID of the user whose friendships are removed
      */
-    public void removeAllWithId(int userid){
+    public void removeAllWithId(Long userid){
         Iterator<Friendship> it = friendships.iterator();
 
         while (it.hasNext()) {
             Friendship f = it.next();
-            if(f.getUserId1() == userid || f.getUserId2() == userid) {
+            if(f.getUserId1().equals(userid) || f.getUserId2().equals(userid)) {
                 it.remove();
             }
         }

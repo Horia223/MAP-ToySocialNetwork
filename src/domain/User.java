@@ -4,7 +4,7 @@ package domain;
  * Each user has a unique ID, a first name, and a last name.
  */
 
-public class User extends Entity<Integer> {
+public class User extends Entity<Long> {
     private String firstName;
     private String lastName;
 
@@ -17,7 +17,7 @@ public class User extends Entity<Integer> {
      * @param lastName the user's last name
      */
 
-    public User(int id, String firstname, String lastName){
+    public User(Long id, String firstname, String lastName){
         super(id);
         this.firstName = firstname;
         this.lastName =lastName;

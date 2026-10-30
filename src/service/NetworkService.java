@@ -14,7 +14,7 @@ import java.util.Set;
 
 public class NetworkService {
 
-    private final Repository<Integer, User> userRepository;
+    private final Repository<Long, User> userRepository;
     private final FriendshipRepository friendshipRepository;
     private final UserFactory userFactory = new UserFactory();
     private final Validator<User> userValidator = new UserDataValidator();
@@ -22,7 +22,7 @@ public class NetworkService {
 
 
 
-    public NetworkService(Repository<Integer, User> userRepository, FriendshipRepository friendshipRepository){
+    public NetworkService(Repository<Long, User> userRepository, FriendshipRepository friendshipRepository){
         this.friendshipRepository = friendshipRepository;
         this.userRepository = userRepository;
     }
@@ -45,7 +45,7 @@ public class NetworkService {
 
     }
 
-    public void addFriendship(int userId, int userId2){
+    public void addFriendship(Long userId, Long userId2){
 
 
         userRepository.findById(userId);
@@ -58,7 +58,7 @@ public class NetworkService {
 
     }
 
-    public void removeUser(int id){
+    public void removeUser(Long id){
 
 
         userRepository.findById(id);   //validation
@@ -68,7 +68,7 @@ public class NetworkService {
 
     }
 
-    public void removeFriendship(int userid1, int userid2){
+    public void removeFriendship(Long userid1, Long userid2){
 
 
         Friendship friendship = new Friendship(userid1, userid2);
@@ -88,7 +88,7 @@ public class NetworkService {
         return graph.countCommunities();
     }
 
-    public Set<Integer> getMostSociableCommunity() {
+    public Set<Long> getMostSociableCommunity() {
         NetworkGraph graph = new NetworkGraph(userRepository.getAll(), friendshipRepository.getAll()
         );
 
