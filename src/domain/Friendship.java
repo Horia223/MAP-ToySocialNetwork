@@ -1,24 +1,19 @@
 package domain;
-import java.util.Objects;
-
 /**
  * Represents an undirected friendship between two users.
  * The user IDs are stored in ascending order so that
  * a friendship is independent of the order of its users.
  */
 
-public class Friendship
-{
-    private final int userId1;
-    private final int userId2;
+public class Friendship extends Entity<Tuple<Integer, Integer>> {
 
     public int getUserId1() {
-        return userId1;
+        return getId().getFirst();
     }
 
     public int getUserId2() {
 
-        return userId2;
+        return getId().getSecond();
     }
 
     /**
@@ -29,41 +24,17 @@ public class Friendship
      * @throws IllegalArgumentException if both IDs are equal
      */
     public Friendship(int userId1, int userId2){
-        if (userId1 == userId2){
-            throw new IllegalArgumentException(
-                    "A user cannot be friends with themselves."
-            );
-        }
-
-            if(userId1 <= userId2) {
-            this.userId1 = userId1;
-            this.userId2 = userId2;
-        }
-        else{
-            this.userId1 = userId2;
-            this.userId2 = userId1;
-        }
+        super(createId(userId1, userId2));
     }
 
-    @Override
-    public boolean equals(Object obj){
-        if(this == obj){
-            return true;
+    private static Tuple<Integer, Integer> createId(int userId1, int userId2) {
+        if (userId1 == userId2) {
+            throw new IllegalArgumentException("A user cannot be friends with themselves.");
         }
-
-        if(obj == null || getClass() != obj.getClass()){
-            return false;
+        if (userId1 <= userId2) {
+            return new Tuple<>(userId1, userId2);
         }
-
-        Friendship other = (Friendship) obj;
-
-        return userId1 == other.userId1 && userId2 == other.userId2;
-    }
-
-    @Override
-    public int hashCode(){
-
-        return Objects.hash(userId1,userId2);
+        return new Tuple<>(userId2, userId1);
     }
 
 
