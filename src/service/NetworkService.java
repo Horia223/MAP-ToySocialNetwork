@@ -13,7 +13,7 @@ public class NetworkService {
 
     private final Repository<Long, User> userRepository;
     private final Repository<Tuple<Long, Long>, Friendship> friendshipRepository;
-    private final UserFactory userFactory = new UserFactory();
+    private final UserFactory userFactory;
 
 
 
@@ -21,6 +21,7 @@ public class NetworkService {
                           Repository<Tuple<Long, Long>, Friendship> friendshipRepository) {
         this.friendshipRepository = friendshipRepository;
         this.userRepository = userRepository;
+        this.userFactory = new UserFactory(userRepository.getAll());
     }
 
 
