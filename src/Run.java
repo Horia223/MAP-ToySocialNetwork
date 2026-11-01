@@ -21,6 +21,7 @@ public class Run {
                 factory.createFriendshipRepository(new FriendshipValidator());
 
         Main main = new Main(userRepository, friendshipRepository);
+
         main.main();
     }
 }

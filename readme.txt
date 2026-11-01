@@ -16,15 +16,15 @@ Daca un fisier nu exista la pornire, repository-ul pleaca gol, iar fisierul este
 
 PRINCIPII SOLID
 
-S — SRP (Single Responsibility Principle): Fiecare clasă are un rol clar: repository-ul se ocupă de date, validatorul verifică dacă sunt corecte, iar UI-ul afișează mesajele.
+S — (Single Responsibility Principle): Fiecare clasă are un rol clar: repository-ul se ocupă de date, validatorul verifică dacă sunt corecte, iar UI-ul afișează mesajele.
 
-O — OCP (Open/Closed Principle): Putem adăuga sau schimba validatori și repository-uri fără să modificăm logica de bază din InMemoryRepository.
+O — (Open/Closed Principle): Putem adăuga sau schimba validatori și repository-uri fără să modificăm logica de bază din InMemoryRepository.
 
-L — LSP (Liskov Substitution Principle): Orice repository concret poate înlocui interfața Repository și poate fi folosit fără să strice funcționarea aplicației.
+L — (Liskov Substitution Principle): Orice repository concret poate înlocui interfața Repository și poate fi folosit fără să strice funcționarea aplicației.
 
-I — ISP (Interface Segregation Principle): Interfața Repository ar trebui să conțină doar operațiile necesare repository-urilor, fără metode inutile pentru clasele care o implementează.
+I —(Interface Segregation Principle): Interfața Repository ar trebui să conțină doar operațiile necesare repository-urilor, fără metode inutile pentru clasele care o implementează.
 
-D — DIP (Dependency Inversion Principle): Service-ul și UI-ul lucrează cu interfața Repository, nu direct cu clasele concrete.
+D —(Dependency Inversion Principle): Service-ul și UI-ul lucrează cu interfața Repository, nu direct cu clasele concrete.
 
 Strategy: Validatorul este trimis ca parametru (injectat) in repository.
 Template Method: AbstractFileRepository contine pasii generali de citire si scriere in fisier, iar clasele care o mostenesc se ocupa doar de transformarea liniilor de text in obiecte si invers.
