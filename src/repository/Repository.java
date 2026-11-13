@@ -73,7 +73,7 @@ public interface Repository<ID, E extends Entity<ID>> {
      * #@throws NullPointerException if the filter is null
      */
     default List<E> findAll(Predicate<E> filter) {
-        Objects.requireNonNull(filter, "Filter cannout be null");
+        Objects.requireNonNull(filter, "Filter cannot be null");
 
         return getAll().stream()
                 .filter(filter)

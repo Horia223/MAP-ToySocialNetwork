@@ -36,6 +36,7 @@ public class Run {
         Validator<User> userValidator =
                 new UserDataValidator().andThen(noDigitsValidator);
 
+        //sa folosec find ul nou cu predicat
 
         Repository<Long, User> userRepository =
                 factory.createUserRepository(userValidator);

@@ -4,8 +4,8 @@ import domain.Friendship;
 import domain.Tuple;
 import domain.User;
 import exception.RepositoryException;
-import validation.FriendshipValidator;
-import validation.UserDataValidator;
+//import validation.FriendshipValidator;
+//import validation.UserDataValidator;
 import validation.Validator;
 
 import java.io.IOException;
@@ -15,9 +15,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.function.Function;
+
+
 public class RepositoryFactory {
     private final Properties properties = new Properties();
     private final RepositoryType repositoryType;
+    private final Map<RepositoryType, Function<Validator<User>, Repository<Long,User>>>  userRepositoryFactories;
+    private final Map<RepositoryType, Function<Validator<Friendship>, Repository<Tuple<Long,Long>, Friendship>>> friendshipRepositoryFactories;
+
 
     public RepositoryFactory(Path configFile) {
         try (InputStream input = Files.newInputStream(configFile)) {
@@ -37,49 +45,65 @@ public class RepositoryFactory {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Unknown repository.type: " + type, e);
         }
-    }
 
-    public Repository<Long, User> createUserRepository(Validator<User> validator) {
-        switch (repositoryType) {
-            case MEMORY:
-                return new UserRepository(validator);
-            case FILE:
-                return new UserFileRepository(
-                        Paths.get(required("user.file")), validator);
-
-
-
-                case DATABASE:
-                return new UserDbRepository(
+        userRepositoryFactories = new EnumMap<>(RepositoryType.class);
+        userRepositoryFactories.put(RepositoryType.MEMORY, UserRepository::new);
+        userRepositoryFactories.put(
+                RepositoryType.FILE,
+                validator -> new UserFileRepository(
+                        Paths.get(required("user.file")),
+                        validator
+                )
+        );
+        userRepositoryFactories.put(
+                RepositoryType.DATABASE,
+                validator ->  new UserDbRepository(
                         validator,
                         required("db.url"),
                         required("db.user"),
-                        required("db.password"));
-            default:
-                throw new IllegalArgumentException("Unknown repository type.");
+                        required("db.password")
+                )
+        );
+        friendshipRepositoryFactories = new EnumMap<>(RepositoryType.class);
+        friendshipRepositoryFactories.put(RepositoryType.MEMORY, FriendshipRepository::new);
+        friendshipRepositoryFactories.put(
+                RepositoryType.FILE,
+                validator -> new FriendshipFileRepository(
+                        Paths.get(required("friendship.file")),
+                        validator
+                )
+        );
+        friendshipRepositoryFactories.put(
+                RepositoryType.DATABASE,
+                validator -> new FriendshipDbRepository(
+                        validator,
+                        required("db.url"),
+                        required("db.user"),
+                        required("db.password")
+                        )
+        );
+    }
+
+    public Repository<Long, User> createUserRepository(Validator<User> validator) {
+
+        Function<Validator<User>, Repository<Long, User>> factory = userRepositoryFactories.get(repositoryType);
+
+        if(factory == null){
+            throw new IllegalArgumentException("Unknown repository type: " + repositoryType);
         }
+        return factory.apply(validator);
     }
 
     public Repository<Tuple<Long, Long>, Friendship> createFriendshipRepository(
             Validator<Friendship> validator) {
-        switch (repositoryType) {
-            case MEMORY:
-                return new FriendshipRepository(validator);
 
-                case FILE:
-                return new FriendshipFileRepository(
-                        Paths.get(required("friendship.file")), validator);
+        Function<Validator<Friendship>,
+                Repository<Tuple<Long, Long>, Friendship>> factory = friendshipRepositoryFactories.get(repositoryType);
 
-
-                case DATABASE:
-                return new FriendshipDbRepository(
-                        validator,
-                        required("db.url"),
-                        required("db.user"),
-                        required("db.password"));
-            default:
-                throw new IllegalArgumentException("Unknown repository type.");
+        if (factory == null) {
+            throw new IllegalArgumentException("Unknown repository type: " + repositoryType);
         }
+        return factory.apply(validator);
     }
 
     private String required(String key) {

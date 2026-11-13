@@ -37,3 +37,8 @@ Factory: RepositoryFactory decide ce tip de repository sa creeze in functie de f
 LAB 5:
 Am ales Optional<E> pentru ca rezultatul cautarii paote lipsi. Astfel findOne arata clar ca poate intoarece o entitate daca e gasita
 fie un rezutlat gol, fara sa mai foloseasca null. Iar in service cand trebuie sa existe entitatea, tranformam rezultaul gol in aceeasi exceptie
+
+Am păstrat șablonul Template Method. AbstractFileRepository gestionează citirea, scrierea și tratarea comună a fișierelor,
+iar UserFileRepository și FriendshipFileRepository definesc conversia dintre linie și entitate.
+ Alegerea păstrează structura existentă și evită duplicarea logicii de fișie
+

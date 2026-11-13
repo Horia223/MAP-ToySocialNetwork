@@ -8,6 +8,10 @@ import repository.Repository;
 
 import java.util.Collection;
 import java.util.Set;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 
 import exception.EntityNotFoundException;
 
@@ -31,11 +35,46 @@ public class NetworkService {
         return userRepository.getAll();
     }
 
+
+
+    /**
+     * Finds users that match the given filter.
+     *
+     * @param filter the condition users must satisfy
+     * @return a list of matching users
+     * @throws NullPointerException if the filter is null
+     */
+
+    public List<User> findUsers(Predicate<User> filter) {
+        return userRepository.findAll(filter);
+    }
+
     public Collection<Friendship> getAllFriendships() {
         return friendshipRepository.getAll();
     }
 
 
+    /**
+     * Returns all users who are friends with the given user.
+     *
+     * @param userId the ID of the user
+     * @return a list of the user's friends
+     * @throws exception.EntityNotFoundException if the user does not exist
+     */
+    public List<User> getFriends(Long userId) {
+        requireUser(userId);
+
+        return friendshipRepository.getAll().stream()
+                .filter(friendship ->
+                        friendship.getUserId1().equals(userId)
+                                || friendship.getUserId2().equals(userId))
+                .map(friendship ->
+                        friendship.getUserId1().equals(userId)
+                                ? friendship.getUserId2()
+                                : friendship.getUserId1())
+                .map(this::requireUser)
+                .collect(Collectors.toList());
+    }
 
     public User addUser(String firstname, String lastname){
 
@@ -63,17 +102,19 @@ public class NetworkService {
 
     }
 
-    public void removeUser(Long id){
-
-
+    public void removeUser(Long id) {
         requireUser(id);
-        for (Friendship friendship : friendshipRepository.getAll()) {
-            if (friendship.getUserId1().equals(id) || friendship.getUserId2().equals(id)) {
-                friendshipRepository.delete(friendship.getId());
-            }
-        }
-        userRepository.delete(id);
 
+        List<Tuple<Long, Long>> friendshipIdsToRemove =
+                friendshipRepository.getAll().stream()
+                        .filter(friendship ->
+                                friendship.getUserId1().equals(id)
+                                        || friendship.getUserId2().equals(id))
+                        .map(Friendship::getId)
+                        .collect(Collectors.toList());
+
+        friendshipIdsToRemove.forEach(friendshipRepository::delete);
+        userRepository.delete(id);
     }
 
     public void removeFriendship(Long userid1, Long userid2){
