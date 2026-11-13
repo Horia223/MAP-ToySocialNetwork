@@ -53,7 +53,7 @@ public class InMemoryRepository<ID, E extends Entity<ID>> implements Repository<
         if (id == null) {
             throw new IllegalArgumentException("ID cannot be null.");
         }
-
+        //return Optional.empty()
         return Optional.ofNullable(entities.get(id));
     }
 

@@ -1,6 +1,5 @@
-1;Horia;Istrate
-2;Sebi;Iliescu
 3;Maximilian;Nicoara
 4;David;Tataran
 6;Razvan ;Chiribuca
 7;User;Fam
+8;Horia';Istrate

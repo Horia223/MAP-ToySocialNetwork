@@ -59,9 +59,7 @@ public abstract class AbstractFileRepository<ID, E extends Entity<ID>>
 
                 try {
                     super.save(extractEntity(line));
-                } catch (IllegalArgumentException
-                         | DateTimeParseException
-                         | ValidationException e) {
+                } catch (IllegalArgumentException | DateTimeParseException | ValidationException e) {
                     System.err.println(
                             "Ignoring line " + (index + 1) + " in " + file + " because: " + e.getMessage()
                     );

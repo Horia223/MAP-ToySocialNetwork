@@ -7,7 +7,7 @@ Clasa RepositoryFactory citeste setarea repository.type din config.properties si
 
     pentru DATABASE creeaza doar niste clase de tip schelet. Cand o sa trecem la baze de date intr-un laborator viitor, va trebui doar sa implementam metodele cu JDBC in UserDbRepository si FriendshipDbRepository, pentru ca service-ul si UI-ul depind doar de interfata Repository, nu de implementare.
 
-RepositoryFactory este un Simple Factory care foloseste un switch ca sa aleaga clasele. Daca vrem sa adaugam un tip nou de repository, trebuie sa modificam acest switch. O alta varianta ar fi fost Abstract Factory (cu cate o fabrica separata pentru fiecare tip), care e mai usor de extins fara un switch central, dar necesita mai multe clase.
+RepositoryFactory este un Simple Factory care foloseste Files.lines si Files.write. Daca vrem sa adaugam un tip nou de repository, trebuie sa modificam acest switch. O alta varianta ar fi fost Abstract Factory (cu cate o fabrica separata pentru fiecare tip), care e mai usor de extins fara un switch central, dar necesita mai multe clase.
 
 FISIERE
 Utilizatorii se salveaza in data/utilizatori.txt (cate unul pe linie, sub forma id;prenume;nume), iar prieteniile in data/prietenii.txt (sub forma idUtilizator1;idUtilizator2;data).
@@ -34,11 +34,25 @@ Factory: RepositoryFactory decide ce tip de repository sa creeze in functie de f
 
 
 
-LAB 5:
-Am ales Optional<E> pentru ca rezultatul cautarii paote lipsi. Astfel findOne arata clar ca poate intoarece o entitate daca e gasita
+LAB 4:
+Am ales ca Repository.findone sa intoarca Optional<E> pentru ca rezultatul cautarii poate lipsi.
+ Astfel findOne arata clar ca poate intoarece o entitate daca e gasita
 fie un rezutlat gol, fara sa mai foloseasca null. Iar in service cand trebuie sa existe entitatea, tranformam rezultaul gol in aceeasi exceptie
 
 Am păstrat șablonul Template Method. AbstractFileRepository gestionează citirea, scrierea și tratarea comună a fișierelor,
 iar UserFileRepository și FriendshipFileRepository definesc conversia dintre linie și entitate.
  Alegerea păstrează structura existentă și evită duplicarea logicii de fișie
+
+
+Interfete functionale folosite: Validator<T> valideaza entitati si compune reguli cu andThen si Predicate<E>
+filtreaza elemente in Repository.findAlll si defineste criteriile din UserCriteria;
+Function asociaza tiupurile din RepositoyFactory cu functiile de creare, Comparator defineste ordinea utilizatorilor si a
+prietenilor si compara diamntrele comunitatilor
+
+
+1. Main - afisarea utilizatorilor si prieteniilor      /      for-each   ---> sorted,map,forEach
+2. UserFactory constructor    /   for pentru gasirea id ului maxim     ----> mapToLong, max, orElse
+3. NetworkGraph DFS si BFS    /  for si while pentru vecini si niveluri ----> stram, flatMap, filter, colllect si recursivitate
+4. NetworkGraph constructor-prietenii         / for peste prietenii      ---> stream si forEach
+5. NetworkGraph cosntructor - utilizatori     / for peste utilizatori    -----> stram si ForEach
 

@@ -8,6 +8,8 @@ import validation.UserDataValidator;
 import ui.Main;
 import exception.ValidationException;
 import validation.Validator;
+import service.UserCriteria;
+import java.util.List;
 
  import java.nio.file.Paths;
 
@@ -33,13 +35,51 @@ public class Run {
             }
         };
 
-        Validator<User> userValidator =
-                new UserDataValidator().andThen(noDigitsValidator);
+        Validator<User> firstCase = user -> {
+            boolean firstNameInvalid = user.getFirstName()
+                    .chars().
+                    anyMatch(Character::isLowerCase);
+
+            boolean lastNameInvalid = user.getLastName()
+                    .chars().
+                    anyMatch(Character::isLowerCase);
+            if(firstNameInvalid || lastNameInvalid) {
+                throw new ValidationException("First character cannot be lower case");
+            }
+        };
+
+
+        Validator<User> userValidatorHigherCase = user -> {
+            boolean firstNameInvalid = user.getFirstName()
+                    .startsWith("A");
+
+            if(!firstNameInvalid) {
+                throw new ValidationException("First character does not start with A");
+            }
+
+
+
+        };
+
+
+        Validator<User> userValidator =  new UserDataValidator().andThen(noDigitsValidator);
 
         //sa folosec find ul nou cu predicat
 
-        Repository<Long, User> userRepository =
-                factory.createUserRepository(userValidator);
+        Repository<Long, User> userRepository = factory.createUserRepository(userValidator);
+
+
+
+        List<User> matchingUsers = userRepository.findAll(
+
+                UserCriteria.firstNameStartsWith("D")
+                        .and(UserCriteria.lastNameStartsWith("T"))
+        );
+
+        System.out.println("Search example: " + matchingUsers.size() + " users found.");
+
+
+
 
 
         Repository<Tuple<Long, Long>, Friendship> friendshipRepository =
