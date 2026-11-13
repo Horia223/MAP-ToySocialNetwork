@@ -95,11 +95,12 @@ public class Main {
                         if (users.isEmpty()) {
                             System.out.println("No users found.");
                         } else {
-                            for (User user : users) {
-                                System.out.println("ID: " + user.getId()
-                                        + ", Name: " + user.getFirstName()
-                                        + " " + user.getLastName());
-                            }
+                            users.stream()
+                                    .map(user -> "ID:" + user.getId()
+                                    + ", Name: " + user.getFirstName()
+                                        + " " + user.getLastName()
+                                    ).forEach(System.out::println);
+
                         }
                         break;
                     }
@@ -109,11 +110,12 @@ public class Main {
                         if (friendships.isEmpty()) {
                             System.out.println("No friendships found.");
                         } else {
-                            for (Friendship friendship : friendships) {
-                                System.out.println(friendship.getUserId1()
-                                        + " <----> " + friendship.getUserId2()
-                                        + " at " + friendship.getDate());
-                            }
+                            friendships.stream()
+                                    .map(friendship ->  friendship.getUserId1()
+                                    + " <-----> " + friendship.getUserId2()
+                                    + " at " + friendship.getDate()
+                                    ).forEach(System.out::println);
+
                         }
                         break;
                     }

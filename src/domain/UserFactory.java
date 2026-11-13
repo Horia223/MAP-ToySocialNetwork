@@ -9,11 +9,10 @@ public class UserFactory {
     private long nextId = 1L;
 
     public UserFactory(Collection<User> existingUsers) {
-        for (User user : existingUsers) {
-            if (user.getId() >= nextId) {
-                nextId = user.getId() + 1;
-            }
-        }
+        nextId = existingUsers.stream()
+                .mapToLong(User::getId)
+                .max()
+                .orElse(0L) + 1;
     }
 
     public User createUser(String firstName, String lastName) {
