@@ -8,6 +8,7 @@ import repository.Repository;
 
 import java.util.Scanner;
 import java.util.Set;
+import java.util.Comparator;
 
 public class Main {
     private final NetworkService networkService;
@@ -96,10 +97,12 @@ public class Main {
                             System.out.println("No users found.");
                         } else {
                             users.stream()
-                                    .map(user -> "ID:" + user.getId()
-                                    + ", Name: " + user.getFirstName()
-                                        + " " + user.getLastName()
-                                    ).forEach(System.out::println);
+                                    .sorted(Comparator.comparing(User::getLastName)
+                                            .thenComparing(User::getFirstName))
+                                    .map(user -> "ID: " + user.getId()
+                                            + ", Name: " + user.getFirstName()
+                                            + " " + user.getLastName())
+                                    .forEach(System.out::println);
 
                         }
                         break;
@@ -111,10 +114,11 @@ public class Main {
                             System.out.println("No friendships found.");
                         } else {
                             friendships.stream()
-                                    .map(friendship ->  friendship.getUserId1()
-                                    + " <-----> " + friendship.getUserId2()
-                                    + " at " + friendship.getDate()
-                                    ).forEach(System.out::println);
+                                    .sorted(Comparator.comparing(Friendship::getDate).reversed())
+                                    .map(friendship -> friendship.getUserId1()
+                                            + " <-----> " + friendship.getUserId2()
+                                            + " at " + friendship.getDate())
+                                    .forEach(System.out::println);
 
                         }
                         break;
