@@ -9,6 +9,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.util.Optional;
+
 /**
  * Stores entities in memory and validates them before saving or updating.
  */
@@ -47,15 +49,12 @@ public class InMemoryRepository<ID, E extends Entity<ID>> implements Repository<
     }
 
     @Override
-    public E findOne(ID id) {
+    public Optional<E> findOne(ID id) {
         if (id == null) {
             throw new IllegalArgumentException("ID cannot be null.");
         }
-        E entity = entities.get(id);
-        if (entity == null) {
-            throw new EntityNotFoundException("Entity does not exist.");
-        }
-        return entity;
+
+        return Optional.ofNullable(entities.get(id));
     }
 
     @Override

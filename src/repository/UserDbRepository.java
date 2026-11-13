@@ -4,6 +4,7 @@ import domain.User;
 import validation.Validator;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public class UserDbRepository implements Repository<Long, User> {
     private final Validator<User> validator;
@@ -35,7 +36,7 @@ public class UserDbRepository implements Repository<Long, User> {
     }
 
     @Override
-    public User findOne(Long id) {
+    public Optional<User> findOne(Long id) {
         throw new UnsupportedOperationException(
                 "Not yet");
     }

@@ -30,3 +30,10 @@ Strategy: Validatorul este trimis ca parametru (injectat) in repository.
 Template Method: AbstractFileRepository contine pasii generali de citire si scriere in fisier, iar clasele care o mostenesc se ocupa doar de transformarea liniilor de text in obiecte si invers.
 Decorator: Am folosit BufferedReader si BufferedWriter peste fisiere pentru o citire si scriere mai eficienta.
 Factory: RepositoryFactory decide ce tip de repository sa creeze in functie de fisierul de configurare.
+
+
+
+
+LAB 5:
+Am ales Optional<E> pentru ca rezultatul cautarii paote lipsi. Astfel findOne arata clar ca poate intoarece o entitate daca e gasita
+fie un rezutlat gol, fara sa mai foloseasca null. Iar in service cand trebuie sa existe entitatea, tranformam rezultaul gol in aceeasi exceptie

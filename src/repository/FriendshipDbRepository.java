@@ -5,6 +5,7 @@ import domain.Tuple;
 import validation.Validator;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public class FriendshipDbRepository
         implements Repository<Tuple<Long, Long>, Friendship> {
@@ -39,7 +40,7 @@ public class FriendshipDbRepository
     }
 
     @Override
-    public Friendship findOne(Tuple<Long, Long> id) {
+    public Optional<Friendship> findOne(Tuple<Long, Long> id) {
         throw new UnsupportedOperationException("Not yet");}
 
 

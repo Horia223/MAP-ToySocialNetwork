@@ -9,6 +9,8 @@ import repository.Repository;
 import java.util.Collection;
 import java.util.Set;
 
+import exception.EntityNotFoundException;
+
 public class NetworkService {
 
     private final Repository<Long, User> userRepository;
@@ -33,6 +35,8 @@ public class NetworkService {
         return friendshipRepository.getAll();
     }
 
+
+
     public User addUser(String firstname, String lastname){
 
 
@@ -41,11 +45,17 @@ public class NetworkService {
 
     }
 
+
+    private User requireUser(Long id){
+        return userRepository.findOne(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+    }
+
     public void addFriendship(Long userId, Long userId2){
 
 
-        userRepository.findOne(userId);
-        userRepository.findOne(userId2);
+        requireUser(userId);
+        requireUser(userId2);
 
         Friendship friendship = new Friendship(userId, userId2);
         friendshipRepository.save(friendship);
@@ -56,7 +66,7 @@ public class NetworkService {
     public void removeUser(Long id){
 
 
-        userRepository.findOne(id);
+        requireUser(id);
         for (Friendship friendship : friendshipRepository.getAll()) {
             if (friendship.getUserId1().equals(id) || friendship.getUserId2().equals(id)) {
                 friendshipRepository.delete(friendship.getId());

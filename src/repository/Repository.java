@@ -2,6 +2,7 @@ package repository;
 
 import domain.Entity;
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * Stores and retrieves entities.
@@ -34,11 +35,10 @@ public interface Repository<ID, E extends Entity<ID>> {
      * Finds an entity by ID.
      *
      * @param id the ID of the entity
-     * @return the found entity
+     * @return an Optional containing the entity, or an empty Optional if it does not exist
      * @throws IllegalArgumentException if the ID is null
-     * @throws exception.EntityNotFoundException if the entity does not exist
      */
-    E findOne(ID id);
+    Optional<E> findOne(ID id);
 
     /**
      * Replaces an existing entity with the same ID.

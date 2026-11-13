@@ -17,6 +17,7 @@ public class Run {
         Repository<Long, User> userRepository =
                 factory.createUserRepository(new UserDataValidator());
 
+
         Repository<Tuple<Long, Long>, Friendship> friendshipRepository =
                 factory.createFriendshipRepository(new FriendshipValidator());
 
