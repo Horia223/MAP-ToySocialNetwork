@@ -63,4 +63,20 @@ public interface Repository<ID, E extends Entity<ID>> {
      * @return a collection of entities
      */
     Collection<E> getAll();
+
+
+    /**
+     *Returns all entities that match the given filter.
+     *
+     * @param filter the condition each entity must satisfy
+     * @return a list containing the mathcing entities
+     * #@throws NullPointerException if the filter is null
+     */
+    default List<E> findAll(Predicate<E> filter) {
+        Objects.requireNonNull(filter, "Filter cannout be null");
+
+        return getAll().stream()
+                .filter(filter)
+                .collect(Collectors.toList()); //makes the result into a list
+    }
 }
